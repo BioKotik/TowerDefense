@@ -1,13 +1,15 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Tower : MonoBehaviour
 {
+    [HideInInspector] public Enemy enemy;
     [SerializeField] private float attackSpeed;
     [SerializeField] private float attackRange;
     [SerializeField] private Projectile projectilePrefab;
-    [SerializeField] private GameObject target;
+    [SerializeField] private World world;
     private bool isCanShoot = true;
     private float reloadTime;
 
@@ -22,21 +24,56 @@ public class Tower : MonoBehaviour
         Init();
     }
 
-    public void Attack(Transform target)
+    public void Attack(Enemy target)
     {
         Instantiate(projectilePrefab, transform.position, Quaternion.identity).Attack(target);
     }
 
+    private Enemy GetNewTarget()
+    {
+        var count = world.EnemyManager.EnemiesCount;
+
+        for (int i = 0; i < count; i++)
+        {
+            Enemy enemy = world.EnemyManager.GetEnemyByIndex(i);
+
+            if (CheckDistance(enemy.transform))
+            {
+                return enemy;
+            }
+
+        }
+
+        return null;
+    }
+
     private void Update()
     {
-        if (Input.GetMouseButton(0) && CheckRange(target.transform))
+        try
         {
-            if (isCanShoot)
+            if (enemy == null)
             {
-                Attack(target.transform);
-                StartCoroutine(Reload(reloadTime));
+                GetNewTarget();
+            }
+
+            if (CheckDistance(enemy.transform))
+            {
+                if (isCanShoot)
+                {
+                    Attack(enemy);
+                    StartCoroutine(Reload(reloadTime));
+                }
             }
         }
+        catch (NullReferenceException e)
+        {
+            
+        }
+    }
+
+    public bool CheckDistance(Transform target)
+    {
+        return Vector3.Distance(target.position, transform.position) <= attackRange;
     }
 
     private IEnumerator Reload(float delay)
@@ -44,16 +81,6 @@ public class Tower : MonoBehaviour
         isCanShoot = false;
         yield return new WaitForSeconds(delay);
         isCanShoot = true;
-    }
-
-    private bool CheckRange(Transform target)
-    {
-        if (Vector3.Distance(transform.position, target.position) <= attackRange)
-        {
-            return true;
-        }
-
-        return false;
     }
 
     public void Upgrade(TowerUpgrades upgrade)

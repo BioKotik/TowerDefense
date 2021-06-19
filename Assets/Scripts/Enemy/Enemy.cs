@@ -16,9 +16,9 @@ public class Enemy : MonoBehaviour
 		return hp == 0;
 	}
 
-	public void OnHit()
+	public void OnHit(int damage)
 	{
-		hp -= 0; // TODO: Add damge here
+		hp -= damage; // TODO: Add damge here
 
 		if (hp <= 0)
 		{
