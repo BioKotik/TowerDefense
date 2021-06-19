@@ -1,13 +1,23 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-	public static GameManager Instance;
+	[SerializeField] private Tower tower;
+	[SerializeField] private List<TowerUpgrades> towerUpgrades;
 
-	[SerializeField] private World world;
-	[SerializeField] private Level level;
-
-	private WaveExecutor executor;
+	public void UpgradeTower()
+    {
+        if (towerUpgrades.Count != 0)
+        {
+			tower.Upgrade(towerUpgrades[0]);
+			towerUpgrades.RemoveAt(0);
+		}
+        else
+        {
+			print("Upgrades is empty");
+        }
+    }
 
 	// TOWER
 	// 
@@ -18,7 +28,8 @@ public class GameManager : MonoBehaviour
 	// damage
 	// projectile follow enemy
 	// attack transform
-
+	// upgrades (scriptable object)
+	
 	// Upgrade
 	// attack speed bonus (+ as) - 0
 	// attack range bonus (+ ar) - 0
@@ -40,24 +51,9 @@ public class GameManager : MonoBehaviour
 
 	// Level
 	// waves[]
-	// paths[]
 	// event Level End
 
 	// Level Manager
 	// Level[]
 
-	private void Awake()
-	{
-		Instance = this;
-		executor = new WaveExecutor(level);
-	}
-
-	[ContextMenu("Spawn")]
-	private void TestSpawn()
-	{
-		executor.Execute(world, level.Waves[0], () =>
-		{
-			Debug.Log("End");
-		});
-	}
 }
