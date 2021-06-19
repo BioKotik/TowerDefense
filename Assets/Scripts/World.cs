@@ -9,6 +9,6 @@ public class World : MonoBehaviour
 
 	private void Update()
 	{
-		tower.enemy = enemyManager.GetEnemy(0);
+		
 	}
 }

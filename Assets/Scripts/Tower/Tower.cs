@@ -5,17 +5,17 @@ using UnityEngine;
 
 public class Tower : MonoBehaviour
 {
-    [HideInInspector] public Enemy enemy;
+    public Enemy enemy;
     [SerializeField] private float attackSpeed;
     [SerializeField] private float attackRange;
     [SerializeField] private Projectile projectilePrefab;
     [SerializeField] private World world;
-    private bool isCanShoot = true;
+    private bool canShoot = true;
     private float reloadTime;
 
     private void Init()
     {
-        isCanShoot = true;
+        canShoot = true;
         reloadTime = 1 / attackSpeed;
     }
 
@@ -37,7 +37,7 @@ public class Tower : MonoBehaviour
         {
             Enemy enemy = world.EnemyManager.GetEnemy(i);
 
-            if (CheckDistance(enemy.transform))
+            if (IsInRange(enemy.transform))
             {
                 return enemy;
             }
@@ -49,38 +49,31 @@ public class Tower : MonoBehaviour
 
     private void Update()
     {
-        try
+        if (enemy != null && IsInRange(enemy.transform))
         {
-            if (enemy == null)
+            if (canShoot)
             {
-                GetNewTarget();
-            }
-
-            if (CheckDistance(enemy.transform))
-            {
-                if (isCanShoot)
-                {
-                    Attack(enemy);
-                    StartCoroutine(Reload(reloadTime));
-                }
+                Attack(enemy);
+                StartCoroutine(Reload(reloadTime));
             }
         }
-        catch (NullReferenceException e)
+        else
         {
-            
-        }
+            print("NewTarget");
+            enemy = GetNewTarget();
+        }        
     }
 
-    public bool CheckDistance(Transform target)
+    public bool IsInRange(Transform target)
     {
         return Vector3.Distance(target.position, transform.position) <= attackRange;
     }
 
     private IEnumerator Reload(float delay)
     {
-        isCanShoot = false;
+        canShoot = false;
         yield return new WaitForSeconds(delay);
-        isCanShoot = true;
+        canShoot = true;
     }
 
     public void Upgrade(TowerUpgrades upgrade)
