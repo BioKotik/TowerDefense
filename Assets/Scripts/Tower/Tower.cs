@@ -89,4 +89,9 @@ public class Tower : MonoBehaviour
         attackRange += upgrade.attackRangeBonus;
         projectilePrefab = upgrade.projectileBonus ? upgrade.projectileBonus : projectilePrefab;
     }
+
+	private void OnDrawGizmos()
+	{
+        Gizmos.DrawWireSphere(transform.position, attackRange);
+	}
 }

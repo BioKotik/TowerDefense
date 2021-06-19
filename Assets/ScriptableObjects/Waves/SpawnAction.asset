@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 106f70f59fe30094a9c183e7934a8d90, type: 3}
   m_Name: SpawnAction
   m_EditorClassIdentifier: 
+  pathStrategy: 1
+  pathIndex: 0
   config: {fileID: 11400000, guid: cc723e8128b483146a1f0d7df375068e, type: 2}
