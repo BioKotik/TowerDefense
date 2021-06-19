@@ -151,12 +151,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d64a912d1bc3db148b1aa94ca80f71b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackSpeed: 0.2
+  attackSpeed: 100
   attackRange: 20
   projectilePrefab: {fileID: 1653116193006734184, guid: 24bc06add2bdc8244bcc29326ec17948,
     type: 3}
   target: {fileID: 1983780204}
-  upgrade: {fileID: 11400000, guid: ca2a59b1ac7fc0e4ba5c162b17f2cd3a, type: 2}
 --- !u!4 &493068583
 Transform:
   m_ObjectHideFlags: 0
