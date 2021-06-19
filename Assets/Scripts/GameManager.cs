@@ -1,18 +1,42 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+	// TOWER
+	// 
+	// attack speed
+	// attack radius
+	// projectile (prefab)
+	// move speed
+	// damage
+	// projectile follow enemy
+	// attack transform
+	// upgrades (scriptable object)
+	
+	// Upgrade
+	// attack speed bonus (+ as) - 0
+	// attack range bonus (+ ar) - 0
+	// projectile bonus (change prefab) - null;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
+	// ENEMY
+	//
+	// hp
+	// move speed
+	// path
+
+	// WAVE
+	// path
+	// Actions:
+	// - spawn (enemy prefab with count of enemies)
+	// - delay
+	// wave end event
+
+	// Level
+	// waves[]
+	// event Level End
+
+	// Level Manager
+	// Level[]
+
 }
