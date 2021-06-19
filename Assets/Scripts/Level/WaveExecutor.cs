@@ -2,26 +2,24 @@
 {
 	private System.Action callback;
 
-	private Level level;
 	private Wave wave;
 	private World world;
 
 	private int currentActionIndex = 0;
 
-	public WaveExecutor(Level level)
+	public WaveExecutor(World world, Wave wave)
 	{
-		this.level = level;
-	}
-
-	public void Execute(World world, Wave wave, System.Action callback)
-	{
-		this.callback = callback;
 		this.wave = wave;
 		this.world = world;
+	}
 
+	public void Begin(System.Action callback)
+	{
+		this.callback = callback;
 		currentActionIndex = 0;
+
 		var action = wave.GetAction(currentActionIndex);
-		action.Initialize(world, level);
+		action.Initialize(world, wave);
 
 		Execute(action);
 	}
@@ -37,7 +35,7 @@
 		}
 
 		var action = wave.GetAction(currentActionIndex);
-		action.Initialize(world, level);
+		action.Initialize(world, wave);
 
 		Execute(action);
 	}

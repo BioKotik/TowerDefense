@@ -9,6 +9,13 @@ public class EnemyManager
 
 	private List<Enemy> enemies = new List<Enemy>();
 
+	public int EnemyCount { get { return enemies.Count; } }
+	
+	public Enemy GetEnemy(int index)
+	{
+		return enemies[index];
+	}
+
 	public void Spawn(EnemyConfig config, Path path)
 	{
 		var enemy = Object.Instantiate(config.Prefab);

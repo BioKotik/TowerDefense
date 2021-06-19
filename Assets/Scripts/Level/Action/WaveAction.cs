@@ -2,13 +2,13 @@
 
 public abstract class WaveAction : ScriptableObject
 {
-	protected Level level;
+	protected Wave wave;
 	protected World world;
 
-	public void Initialize(World world, Level level)
+	public void Initialize(World world, Wave wave)
 	{
 		this.world = world;
-		this.level = level;
+		this.wave = wave;
 	}
 
 	public abstract void Do(System.Action callback);

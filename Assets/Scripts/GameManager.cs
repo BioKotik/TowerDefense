@@ -8,7 +8,6 @@ public class GameManager : MonoBehaviour
 
 	[SerializeField] private World world;
 	[SerializeField] private Level level;
-	private WaveExecutor executor;
 
 	public void UpgradeTower()
     {
@@ -23,17 +22,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
-	private void Awake()
-	{
-		executor = new WaveExecutor(level);
-	}
-
 	[ContextMenu("Test")]
 	private void Test()
 	{
-		executor.Execute(world, level.Waves[0], () =>
+		var executor = new LevelExecutor(world, level);
+
+		executor.Begin(() =>
 		{
-			print("End");
+			print("Level End!");
 		});
 	}
 }

@@ -27,7 +27,7 @@ public class CyclicalAction : WaveAction
 
 	private void Do(WaveAction action)
 	{
-		action.Initialize(world, level);
+		action.Initialize(world, wave);
 		action.Do(ActionDoneHandler);
 	}
 

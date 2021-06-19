@@ -4,18 +4,11 @@
 public class Level : ScriptableObject
 {
 	[SerializeField] private Wave[] waves;
-	[SerializeField] private Path[] paths;
 
-	public Wave[] Waves { get { return waves; } }
+	public int WaveCount { get { return waves.Length; } }
 
-	public Path GetPath(int index)
+	public Wave GetWave(int index)
 	{
-		return paths[index];
-	}
-
-	public Path GetRandomPath()
-	{
-		var index = Random.Range(0, paths.Length);
-		return GetPath(index);
+		return waves[index];
 	}
 }
