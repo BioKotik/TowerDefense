@@ -14,13 +14,9 @@ public class Projectile : MonoBehaviour
 
     private IEnumerator MoveToTarget(Transform target)
     {
-        float t = 0;
-        Vector3 start = transform.position;
-        while (t < 1)
+        while(Vector3.Distance(transform.position, target.position) > 0.2f)
         {
-            t += Time.deltaTime * moveSpeed;
-
-            transform.position = Vector3.Lerp(start, target.position, t);
+            transform.Translate((target.position - transform.position).normalized * Time.deltaTime * moveSpeed);
             yield return null;
         }
 

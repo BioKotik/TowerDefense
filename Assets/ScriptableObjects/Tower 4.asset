@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d011efcdba57b1d438802f442737ca25, type: 3}
-  m_Name: Tower 0
+  m_Name: Tower 4
   m_EditorClassIdentifier: 
-  attackSpeedBonus: 2
-  attackRangeBonus: 10
+  attackSpeedBonus: 1
+  attackRangeBonus: 1
   projectileBonus: {fileID: 0}

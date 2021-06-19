@@ -8,13 +8,13 @@ public class Tower : MonoBehaviour
     [SerializeField] private float attackRange;
     [SerializeField] private Projectile projectilePrefab;
     [SerializeField] private GameObject target;
-    [SerializeField] private TowerUpgrades upgrade;
+    private bool isCanShoot = true;
+    private float reloadTime;
 
     private void Init()
     {
-        attackSpeed += upgrade.attackSpeedBonus;
-        attackRange += upgrade.attackRangeBonus;
-        projectilePrefab = upgrade.projectileBonus ? upgrade.projectileBonus : projectilePrefab;
+        isCanShoot = true;
+        reloadTime = 1 / attackSpeed;
     }
 
     private void Awake()
@@ -29,10 +29,21 @@ public class Tower : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0) && CheckRange(target.transform))
+        if (Input.GetMouseButton(0) && CheckRange(target.transform))
         {
-            Attack(target.transform);
+            if (isCanShoot)
+            {
+                Attack(target.transform);
+                StartCoroutine(Reload(reloadTime));
+            }
         }
+    }
+
+    private IEnumerator Reload(float delay)
+    {
+        isCanShoot = false;
+        yield return new WaitForSeconds(delay);
+        isCanShoot = true;
     }
 
     private bool CheckRange(Transform target)
@@ -43,5 +54,12 @@ public class Tower : MonoBehaviour
         }
 
         return false;
+    }
+
+    public void Upgrade(TowerUpgrades upgrade)
+    {
+        attackSpeed += upgrade.attackSpeedBonus;
+        attackRange += upgrade.attackRangeBonus;
+        projectilePrefab = upgrade.projectileBonus ? upgrade.projectileBonus : projectilePrefab;
     }
 }
