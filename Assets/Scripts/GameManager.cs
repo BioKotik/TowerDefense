@@ -6,6 +6,10 @@ public class GameManager : MonoBehaviour
 	[SerializeField] private Tower tower;
 	[SerializeField] private List<TowerUpgrades> towerUpgrades;
 
+	[SerializeField] private World world;
+	[SerializeField] private Level level;
+	private WaveExecutor executor;
+
 	public void UpgradeTower()
     {
         if (towerUpgrades.Count != 0)
@@ -19,41 +23,17 @@ public class GameManager : MonoBehaviour
         }
     }
 
-	// TOWER
-	// 
-	// attack speed
-	// attack radius
-	// projectile (prefab)
-	// move speed
-	// damage
-	// projectile follow enemy
-	// attack transform
-	// upgrades (scriptable object)
-	
-	// Upgrade
-	// attack speed bonus (+ as) - 0
-	// attack range bonus (+ ar) - 0
-	// projectile bonus (change prefab) - null;
+	private void Awake()
+	{
+		executor = new WaveExecutor(level);
+	}
 
-
-	// ENEMY
-	//
-	// hp
-	// move speed
-	// path
-
-	// WAVE
-	// path
-	// Actions:
-	// - spawn (enemy prefab with count of enemies)
-	// - delay
-	// wave end event
-
-	// Level
-	// waves[]
-	// event Level End
-
-	// Level Manager
-	// Level[]
-
+	[ContextMenu("Test")]
+	private void Test()
+	{
+		executor.Execute(world, level.Waves[0], () =>
+		{
+			print("End");
+		});
+	}
 }
