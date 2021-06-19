@@ -9,12 +9,16 @@ public class EnemyManager
 
 	private List<Enemy> enemies = new List<Enemy>();
 
-	public int EnemyCount { get { return enemies.Count; } }
-	
+	public int EnemyCount { get => enemies.Count; }
+
 	public Enemy GetEnemy(int index)
-	{
-		return enemies[index];
-	}
+    {
+        if (enemies.Count > 0)
+        {
+			return enemies[index];
+        }
+		return null;
+    }
 
 	public void Spawn(EnemyConfig config, Path path)
 	{
