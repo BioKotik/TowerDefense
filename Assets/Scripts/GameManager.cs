@@ -2,6 +2,13 @@
 
 public class GameManager : MonoBehaviour
 {
+	public static GameManager Instance;
+
+	[SerializeField] private World world;
+	[SerializeField] private Level level;
+
+	private WaveExecutor executor;
+
 	// TOWER
 	// 
 	// attack speed
@@ -11,8 +18,7 @@ public class GameManager : MonoBehaviour
 	// damage
 	// projectile follow enemy
 	// attack transform
-	// upgrades (scriptable object)
-	
+
 	// Upgrade
 	// attack speed bonus (+ as) - 0
 	// attack range bonus (+ ar) - 0
@@ -34,9 +40,24 @@ public class GameManager : MonoBehaviour
 
 	// Level
 	// waves[]
+	// paths[]
 	// event Level End
 
 	// Level Manager
 	// Level[]
 
+	private void Awake()
+	{
+		Instance = this;
+		executor = new WaveExecutor(level);
+	}
+
+	[ContextMenu("Spawn")]
+	private void TestSpawn()
+	{
+		executor.Execute(world, level.Waves[0], () =>
+		{
+			Debug.Log("End");
+		});
+	}
 }

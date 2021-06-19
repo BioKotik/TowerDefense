@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 106f70f59fe30094a9c183e7934a8d90, type: 3}
+  m_Name: SpawnAction
+  m_EditorClassIdentifier: 
+  config: {fileID: 11400000, guid: cc723e8128b483146a1f0d7df375068e, type: 2}
