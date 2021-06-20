@@ -1,35 +1,43 @@
-﻿using System;
+﻿using UnityEngine;
+
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public class Tower : MonoBehaviour
 {
-    public Enemy enemy;
+    private SpriteRenderer renderer;
     [SerializeField] private float attackSpeed;
     [SerializeField] private float attackRange;
     [SerializeField] private Projectile projectilePrefab;
-    [SerializeField] private World world;
+    private Quaternion rotation;
+
+    private World world;
+    private Enemy target;
+
     private bool canShoot = true;
     private float reloadTime;
 
-    private void Init()
-    {
-        canShoot = true;
-        reloadTime = 1 / attackSpeed;
-    }
+    public void Construct(World world)
+	{
+        this.world = world;
 
-    private void Awake()
-    {
-        Init();
-    }
+        canShoot = true;
+        reloadTime = 1f / attackSpeed;
+        renderer = GetComponent<SpriteRenderer>();
+        rotation = transform.rotation;
+	}
 
     public void Attack(Enemy target)
     {
-        Instantiate(projectilePrefab, transform.position, Quaternion.identity).Attack(target);
+        var projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+        projectile.Attack(target);
     }
 
-    private Enemy GetNewTarget()
+    public bool IsInRange(Transform target)
+    {
+        return Vector3.Distance(target.position, transform.position) <= attackRange;
+    }
+
+    private Enemy FindTarget()
     {
         var count = world.EnemyManager.EnemyCount;
 
@@ -41,32 +49,27 @@ public class Tower : MonoBehaviour
             {
                 return enemy;
             }
-
         }
 
         return null;
     }
 
-    private void Update()
+    public void OnUpdate()
     {
-        if (enemy != null && IsInRange(enemy.transform))
+        if (target != null && IsInRange(target.transform))
         {
+            transform.rotation = rotation * QuaternionUtility.LookRotation2D((target.transform.position - transform.position).normalized);
+
             if (canShoot)
             {
-                Attack(enemy);
+                Attack(target);
                 StartCoroutine(Reload(reloadTime));
             }
         }
         else
         {
-            print("NewTarget");
-            enemy = GetNewTarget();
+            target = FindTarget();
         }        
-    }
-
-    public bool IsInRange(Transform target)
-    {
-        return Vector3.Distance(target.position, transform.position) <= attackRange;
     }
 
     private IEnumerator Reload(float delay)
@@ -76,11 +79,20 @@ public class Tower : MonoBehaviour
         canShoot = true;
     }
 
-    public void Upgrade(TowerUpgrades upgrade)
+    public void Upgrade(TowerUpgrade upgrade)
     {
         attackSpeed += upgrade.attackSpeedBonus;
         attackRange += upgrade.attackRangeBonus;
-        projectilePrefab = upgrade.projectileBonus ? upgrade.projectileBonus : projectilePrefab;
+
+        if (upgrade.towerSprite != null)
+        {
+            renderer.sprite = upgrade.towerSprite;
+        }
+
+        if (upgrade.projectileBonus != null)
+		{
+            projectilePrefab = upgrade.projectileBonus;
+        }
     }
 
 	private void OnDrawGizmos()

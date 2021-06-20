@@ -29,6 +29,13 @@ public class PathEditor : Editor
 			path.Add(position);
 		}
 
+		Handles.color = Color.green;
+		for (int idx = 1; idx < path.Length; ++idx)
+		{
+			Handles.DrawLine(path[idx - 1], path[idx]);
+		}
+
+		Handles.color = Color.red;
 		for (int idx = 0; idx < path.Length; ++idx)
 		{
 			path[idx] = Handles.FreeMoveHandle(path[idx], Quaternion.identity, 0.3f, Vector3.zero, Handles.CylinderHandleCap);

@@ -18,7 +18,7 @@ public class Enemy : MonoBehaviour
 
 	public void OnHit(int damage)
 	{
-		hp -= damage; // TODO: Add damge here
+		hp -= damage;
 
 		if (hp <= 0)
 		{
@@ -73,11 +73,12 @@ public class Enemy : MonoBehaviour
 				continue;
 			}
 
-			var direction = (destination - transform.position).normalized;
-			direction *= deltaTime;
-			direction *= movementSpeed;
+			destination.z = transform.position.z;
 
-			transform.position += direction;
+			var direction = (destination - transform.position).normalized;
+
+			transform.rotation = QuaternionUtility.LookRotation2D(direction);
+			transform.position += (direction * movementSpeed * deltaTime);
 
 			deltaTime = 0f;
 		}
