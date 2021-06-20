@@ -28,7 +28,8 @@ public class Tower : MonoBehaviour
 
     public void Attack(Enemy target)
     {
-        var projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+        var projectile = Instantiate(projectilePrefab);
+        projectile.transform.position = transform.position;
         projectile.Attack(target);
     }
 
@@ -79,7 +80,7 @@ public class Tower : MonoBehaviour
         canShoot = true;
     }
 
-    public void Upgrade(TowerUpgrade upgrade)
+    public void Upgrade(Upgrade upgrade)
     {
         attackSpeed += upgrade.attackSpeedBonus;
         attackRange += upgrade.attackRangeBonus;

@@ -7,6 +7,7 @@ public class EnemyManager
 	public event System.Action<Enemy> OnEnemyStop;
 	public event System.Action<Enemy> OnEnemyDead;
 
+	private Transform parent;
 	private List<Enemy> enemies = new List<Enemy>();
 
 	public int EnemyCount { get { return enemies.Count; } }

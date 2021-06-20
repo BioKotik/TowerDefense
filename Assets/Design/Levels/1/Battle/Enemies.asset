@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b3133e494263f940a90a38ebde910cf, type: 3}
+  m_Name: Enemies
+  m_EditorClassIdentifier: 
+  waves:
+  - {fileID: 11400000, guid: b503e6b764a9dde4d91c1704f5560615, type: 2}
+  - {fileID: 11400000, guid: 86f9f51a67336344bb3660c47866d7ea, type: 2}

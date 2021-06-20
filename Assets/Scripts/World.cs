@@ -5,20 +5,21 @@ using UnityEngine;
 public class World
 {
 	private GameObject mainObject;
-	private Environment environment;
-	private Tower tower;
 
-	private readonly EnemyManager enemyManager = new EnemyManager();
+	private Tower tower;
+	private Environment environment;
+	private EnemyManager enemyManager;
 
 	public Tower Tower { get { return tower; } }
 	public Environment Environment { get { return environment; } }
 	public EnemyManager EnemyManager { get { return enemyManager; } }
 
-	public void Construct(WorldConfig config)
+	public void Construct(LevelViewConfig config)
 	{
 		mainObject = new GameObject();
 		mainObject.name = "World";
 
+		enemyManager = new EnemyManager();
 		environment = Object.Instantiate(config.Environment, mainObject.transform);
 
 		var position = environment.GetWorldPosition(config.TowerPosition);
@@ -27,13 +28,17 @@ public class World
 		tower.Construct(this);
 	}
 
-	public void Begin(Level level)
+	public void Release()
 	{
-		var executor = new LevelExecutor(this, level);
-		executor.Begin(() =>
+		if (mainObject != null)
 		{
-			Debug.Log("Level End!");
-		});
+			Object.Destroy(mainObject);
+		}
+	}
+
+	public void AddObject(Transform obj)
+	{
+		obj.parent = mainObject.transform;
 	}
 
 	public void AddRoutine(IEnumerator routine)

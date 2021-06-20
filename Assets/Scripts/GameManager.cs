@@ -2,23 +2,38 @@
 
 public class GameManager : MonoBehaviour
 {
-	[SerializeField] private WorldConfig config;
-	[SerializeField] private Level level;
-	private World world;
+	[SerializeField] private Level[] levels;
+	private Game game;
+	
 
 	private void Awake()
 	{
-		world = new World();
-		world.Construct(config);
+		game = new Game();
+
+		game.OnLevelPassed += OnLevelPassedHandler;
+		game.OnLevelFailed += OnLevelFailedHandler;
 	}
 
 	private void Start()
 	{
-		world.Begin(level);
+		game.Play(levels[0]);
 	}
 
 	private void Update()
 	{
-		world.OnUpdate();
+		if (game != null)
+		{
+			game.OnUpdate();
+		}
+	}
+
+	private void OnLevelFailedHandler()
+	{
+		print("Level Failed!");
+	}
+
+	private void OnLevelPassedHandler()
+	{
+		print("Level Passed!");
 	}
 }

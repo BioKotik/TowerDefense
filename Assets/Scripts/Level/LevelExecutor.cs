@@ -3,11 +3,11 @@ public class LevelExecutor
 {
 	private System.Action callback;
 
-	private Level level;
+	private BattleConfig level;
 	private World world;
 	private int currentWaveIndex;
 
-	public LevelExecutor(World world, Level level)
+	public LevelExecutor(World world, BattleConfig level)
 	{
 		this.world = world;
 		this.level = level;
