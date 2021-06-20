@@ -11,7 +11,7 @@ public class DelayAction : WaveAction
 	public override void Do(System.Action callback)
 	{
 		this.callback = callback;
-		world.StartCoroutine(Delay());
+		world.AddRoutine(Delay());
 	}
 
 	private IEnumerator Delay()

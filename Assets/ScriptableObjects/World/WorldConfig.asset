@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1a7301b8adfb064fa4189044fb3b07e, type: 3}
+  m_Name: WorldConfig
+  m_EditorClassIdentifier: 
+  towerPosition: {x: -3, y: 0}
+  towerPrefab: {fileID: 3038242975606483444, guid: 08477489236c70b4b82bca3ea7e67e51,
+    type: 3}
+  map: {fileID: 1134178260, guid: c905bb273723a1042bb7e57d55375404, type: 3}

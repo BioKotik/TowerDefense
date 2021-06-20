@@ -28,13 +28,13 @@ public class SpawnAction : WaveAction
 		{
 			case PathStrategy.Implicit:
 			{
-				return wave.GetPath(pathIndex);
+				return world.Environment.GetPath(pathIndex);
 			}
 
 			case PathStrategy.Random:
 			default:
 			{
-				return wave.GetRandomPath();
+				return world.Environment.GetRandomPath();
 			}
 		}
 	}

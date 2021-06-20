@@ -20,7 +20,7 @@ public class EnemyManager
 		return null;
     }
 
-	public void Spawn(EnemyConfig config, Path path)
+	public Enemy Spawn(EnemyConfig config, Path path)
 	{
 		var enemy = Object.Instantiate(config.Prefab);
 		enemy.transform.position = path[0];
@@ -30,6 +30,8 @@ public class EnemyManager
 		enemy.OnDead += () => { OnEnemyDeadHandler(enemy); };
 
 		enemies.Add(enemy);
+
+		return enemy;
 	}
 
 	private void OnEnemyStoppedHandler(Enemy enemy)

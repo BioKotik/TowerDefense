@@ -2,17 +2,23 @@
 
 public class GameManager : MonoBehaviour
 {
+	[SerializeField] private WorldConfig config;
 	[SerializeField] private Level level;
-	[SerializeField] private World world;
+	private World world;
 
-	[ContextMenu("Test")]
-	private void Test()
+	private void Awake()
 	{
-		var executor = new LevelExecutor(world, level);
+		world = new World();
+		world.Construct(config);
+	}
 
-		executor.Begin(() =>
-		{
-			print("Level End!");
-		});
+	private void Start()
+	{
+		world.Begin(level);
+	}
+
+	private void Update()
+	{
+		world.OnUpdate();
 	}
 }
