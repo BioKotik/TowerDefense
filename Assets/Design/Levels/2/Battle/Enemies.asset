@@ -9,7 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5149b8eb45c8406429f92703fafd59c3, type: 3}
-  m_Name: Delay
+  m_Script: {fileID: 11500000, guid: 7b3133e494263f940a90a38ebde910cf, type: 3}
+  m_Name: Enemies
   m_EditorClassIdentifier: 
-  seconds: 0.5
+  waves:
+  - {fileID: 11400000, guid: 7d44a5c10da1fcd41a8a34fda570aa8f, type: 2}
+  - {fileID: 11400000, guid: 3f32a010f325fe942824ec5096443ed7, type: 2}

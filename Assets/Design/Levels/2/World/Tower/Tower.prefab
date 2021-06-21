@@ -44,9 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d64a912d1bc3db148b1aa94ca80f71b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackSpeed: 100
+  attackSpeed: 10
   attackRange: 3
-  projectilePrefab: {fileID: 1653116193006734184, guid: 24bc06add2bdc8244bcc29326ec17948,
+  projectilePrefab: {fileID: 1653116193006734184, guid: 9977c580e3ad315458bca66ad2d9c537,
     type: 3}
 --- !u!212 &3038242975606483445
 SpriteRenderer:

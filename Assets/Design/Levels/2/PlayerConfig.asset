@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5149b8eb45c8406429f92703fafd59c3, type: 3}
-  m_Name: Delay
+  m_Script: {fileID: 11500000, guid: 21e8425567af6c243ad269c3c6f0cdc5, type: 3}
+  m_Name: PlayerConfig
   m_EditorClassIdentifier: 
-  seconds: 0.5
+  health: 10
