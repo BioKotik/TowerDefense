@@ -4,6 +4,8 @@ using System.Collections;
 
 public class Projectile : MonoBehaviour
 {
+    public event System.Action OnHit;
+
     private float flySpeed;
     private int damage;
     private Enemy target;
@@ -12,7 +14,6 @@ public class Projectile : MonoBehaviour
 	{
         this.flySpeed = config.FlySpeed;
         this.damage = config.Damage;
-
 	}
 
     public void SetTarget(Enemy target)
@@ -27,7 +28,6 @@ public class Projectile : MonoBehaviour
         {
             if (target == null)
             {
-                Destroy(gameObject);
                 break;
             }
 
@@ -42,6 +42,6 @@ public class Projectile : MonoBehaviour
             yield return null;
         }
 
-        Destroy(gameObject);
+        OnHit?.Invoke();
     }
 }

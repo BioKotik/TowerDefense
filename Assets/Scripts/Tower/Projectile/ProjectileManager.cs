@@ -18,10 +18,17 @@ public class ProjectileManager
 		projectile.transform.position = position;
 		projectile.Construct(config);
 		projectile.SetTarget(target);
+		projectile.OnHit += () => { OnHitHandler(projectile); };
 
 		world.AddObject(projectile.transform);
 		projectiles.Add(projectile);
 
 		return projectile;
+	}
+
+	private void OnHitHandler(Projectile projectile)
+	{
+		projectiles.Remove(projectile);
+		Object.Destroy(projectile.gameObject);
 	}
 }
