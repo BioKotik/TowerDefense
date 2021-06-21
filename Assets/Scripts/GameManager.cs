@@ -3,23 +3,20 @@
 public class GameManager : MonoBehaviour
 {
 	[SerializeField] private Level[] levels;
-	private int index;
+	[SerializeField] private int levelIndex;
 	private Game game;
 	
 
 	private void Awake()
 	{
 		game = new Game();
-
 		game.OnLevelPassed += OnLevelPassedHandler;
 		game.OnLevelFailed += OnLevelFailedHandler;
-
-		index = 0;
 	}
 
 	private void Start()
 	{
-		game.Play(levels[0]);
+		game.Play(levels[levelIndex]);
 	}
 
 	private void Update()
@@ -32,14 +29,14 @@ public class GameManager : MonoBehaviour
 
 	private void OnLevelFailedHandler()
 	{
-		game.Play(levels[index]);
+		game.Play(levels[levelIndex]);
 		print("Level Failed!");
 	}
 
 	private void OnLevelPassedHandler()
 	{
-		index++;
-		game.Play(levels[index]);
+		levelIndex = (levelIndex + 1) % levels.Length;
+		game.Play(levels[levelIndex]);
 		print("Level Passed!");
 	}
 }

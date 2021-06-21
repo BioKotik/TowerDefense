@@ -40,7 +40,7 @@ public class Enemy : MonoBehaviour
 		this.path = path;
 	}
 
-	private void Update()
+	public void OnUpdate()
 	{
 		if (path == null || IsDead())
 		{

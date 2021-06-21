@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a4fe28fca7e6354ab9d7190f7e2ddfd, type: 3}
-  m_Name: 1
+  m_Script: {fileID: 11500000, guid: ddce557afdfb388469c758dcd2a7c817, type: 3}
+  m_Name: EnvironmentConfig
   m_EditorClassIdentifier: 
-  points:
-  - {x: 6.7194757, y: 0.08398855, z: 0}
-  - {x: -11.670221, y: 0.03812763, z: -21.191406}
+  prefab: {fileID: 1134178260, guid: 68b3ddbff7324e14fb4db8c0a7f0cf2a, type: 3}
+  paths:
+  - {fileID: 11400000, guid: ef98fcf84cc95c943bc81159abd5f153, type: 2}

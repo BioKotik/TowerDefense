@@ -4,11 +4,14 @@ using System.Collections;
 
 public class Tower : MonoBehaviour
 {
-    private SpriteRenderer renderer;
-    [SerializeField] private float attackSpeed;
-    [SerializeField] private float attackRange;
-    [SerializeField] private Projectile projectilePrefab;
-    private Quaternion rotation;
+    private float attackSpeed;
+    private float attackRange;
+    private ProjectileConfig projectileConfig;
+
+    private ProjectileManager projectileManager;
+
+    private SpriteRenderer spriteRenderer;
+    private Quaternion defaultRotation;
 
     private World world;
     private Enemy target;
@@ -16,21 +19,24 @@ public class Tower : MonoBehaviour
     private bool canShoot = true;
     private float reloadTime;
 
-    public void Construct(World world)
+    public void Construct(TowerConfig config, World world)
 	{
         this.world = world;
+        this.attackRange = config.AttackRange;
+        this.attackSpeed = config.AttackSpeed;
+        this.projectileConfig = config.ProjectileConfig;
+        this.projectileManager = new ProjectileManager(world);
 
         canShoot = true;
         reloadTime = 1f / attackSpeed;
-        renderer = GetComponent<SpriteRenderer>();
-        rotation = transform.rotation;
+
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        defaultRotation = transform.rotation;
 	}
 
     public void Attack(Enemy target)
     {
-        var projectile = Instantiate(projectilePrefab);
-        projectile.transform.position = transform.position;
-        projectile.Attack(target);
+        projectileManager.Spawn(projectileConfig, target, transform.position);
     }
 
     public bool IsInRange(Transform target)
@@ -59,7 +65,7 @@ public class Tower : MonoBehaviour
     {
         if (target != null && IsInRange(target.transform))
         {
-            transform.rotation = rotation * QuaternionUtility.LookRotation2D((target.transform.position - transform.position).normalized);
+            transform.rotation = defaultRotation * QuaternionUtility.LookRotation2D((target.transform.position - transform.position).normalized);
 
             if (canShoot)
             {
@@ -87,12 +93,12 @@ public class Tower : MonoBehaviour
 
         if (upgrade.towerSprite != null)
         {
-            renderer.sprite = upgrade.towerSprite;
+            spriteRenderer.sprite = upgrade.towerSprite;
         }
 
-        if (upgrade.projectileBonus != null)
+        if (upgrade.projectileConfig != null)
 		{
-            projectilePrefab = upgrade.projectileBonus;
+            projectileConfig = upgrade.projectileConfig;
         }
     }
 

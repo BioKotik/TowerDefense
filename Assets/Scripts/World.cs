@@ -6,26 +6,31 @@ public class World
 {
 	private GameObject mainObject;
 
-	private Tower tower;
 	private Environment environment;
 	private EnemyManager enemyManager;
+	private TowerManager towerManager;
 
-	public Tower Tower { get { return tower; } }
 	public Environment Environment { get { return environment; } }
 	public EnemyManager EnemyManager { get { return enemyManager; } }
+	public TowerManager TowerManager { get { return towerManager; } }
 
 	public void Construct(LevelViewConfig config)
 	{
 		mainObject = new GameObject();
 		mainObject.name = "World";
 
-		enemyManager = new EnemyManager();
-		environment = Object.Instantiate(config.Environment, mainObject.transform);
+		var environmentConfig = config.EnvironmentConfig;
 
-		var position = environment.GetWorldPosition(config.TowerPosition);
-		tower = Object.Instantiate(config.TowerPrefab, mainObject.transform);
-		tower.transform.position = position;
-		tower.Construct(this);
+		environment = Object.Instantiate(environmentConfig.Prefab, mainObject.transform);
+		environment.Construct(environmentConfig);
+
+		enemyManager = new EnemyManager(this);
+		towerManager = new TowerManager(this);
+
+		foreach (var position in config.TowerPositions)
+		{
+			towerManager.Spawn(config.TowerConfig, position);
+		}
 	}
 
 	public void Release()
@@ -53,6 +58,7 @@ public class World
 
 	public void OnUpdate()
 	{
-		tower.OnUpdate();
+		towerManager.OnUpdate();
+		enemyManager.OnUpdate();
 	}
 }

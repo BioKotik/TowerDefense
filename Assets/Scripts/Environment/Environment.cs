@@ -5,7 +5,12 @@ public class Environment : MonoBehaviour
 {
 	[SerializeField] private Tilemap decayTilemap;
 	[SerializeField] private Tilemap backgroundTilemap;
-	[SerializeField] private Path[] paths;
+	private Path[] paths;
+
+	public void Construct(EnvironmentConfig config)
+	{
+		this.paths = config.Paths;
+	}
 
 	public Vector3 GetWorldPosition(Vector2Int cell)
 	{

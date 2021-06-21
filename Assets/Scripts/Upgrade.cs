@@ -5,6 +5,6 @@ public class Upgrade : ScriptableObject
 {
     public float attackSpeedBonus = 0;
     public float attackRangeBonus = 0;
-    public Projectile projectileBonus = null;
+    public ProjectileConfig projectileConfig = null;
     public Sprite towerSprite;
 }

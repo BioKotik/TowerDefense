@@ -7,10 +7,15 @@ public class EnemyManager
 	public event System.Action<Enemy> OnEnemyStop;
 	public event System.Action<Enemy> OnEnemyDead;
 
-	private Transform parent;
 	private List<Enemy> enemies = new List<Enemy>();
+	private World world;
 
 	public int EnemyCount { get { return enemies.Count; } }
+
+	public EnemyManager(World world)
+	{
+		this.world = world;
+	}
 
 	public Enemy GetEnemy(int index)
     {
@@ -30,9 +35,21 @@ public class EnemyManager
 		enemy.OnStop += () => { OnEnemyStoppedHandler(enemy); };
 		enemy.OnDead += () => { OnEnemyDeadHandler(enemy); };
 
+		world.AddObject(enemy.transform);
 		enemies.Add(enemy);
 
 		return enemy;
+	}
+
+	public void OnUpdate()
+	{
+		var copy = new Enemy[enemies.Count];
+		enemies.CopyTo(copy);
+
+		foreach (var enemy in copy)
+		{
+			enemy.OnUpdate();
+		}
 	}
 
 	private void OnEnemyStoppedHandler(Enemy enemy)

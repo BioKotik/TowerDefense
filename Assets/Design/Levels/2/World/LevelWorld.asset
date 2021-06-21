@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b83e7b0be51f040439a0c35c7cf0a492, type: 3}
   m_Name: LevelWorld
   m_EditorClassIdentifier: 
-  towerPosition: {x: -3, y: 1}
-  towerPrefab: {fileID: 3038242975606483444, guid: 4123996bdd2fce14cb2b8b9b9704fbc7,
-    type: 3}
-  map: {fileID: 1134178260, guid: 68b3ddbff7324e14fb4db8c0a7f0cf2a, type: 3}
+  towerPositions:
+  - {x: -3, y: 1}
+  - {x: -3, y: -2}
+  towerConfig: {fileID: 11400000, guid: 8f8e49729dd662440922ea4fbe5cf575, type: 2}
+  environmentConfig: {fileID: 11400000, guid: 95d2b371eb1cefa43a83a681f5244c63, type: 2}
