@@ -7,6 +7,7 @@ public class Enemy : MonoBehaviour
 
 	[SerializeField] private int hp;
 	[SerializeField] private float movementSpeed;
+	[SerializeField] private int reward;
 
 	[SerializeField] private Path path;
 	[SerializeField] private int currentPositionIndex;
@@ -28,10 +29,16 @@ public class Enemy : MonoBehaviour
 		}
 	}
 
+	public int GetDeathReward()
+	{
+		return reward;
+	}
+
 	public void Construct(EnemyConfig config)
 	{
 		this.hp = config.Hp;
 		this.movementSpeed = config.MovementSpeed;
+		this.reward = config.Reward;
 		ResetMovement();
 	}
 

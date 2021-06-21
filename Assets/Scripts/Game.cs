@@ -1,4 +1,7 @@
 ﻿
+using System;
+using UnityEngine;
+
 public class Game
 {
 	public event System.Action OnLevelPassed;
@@ -15,13 +18,24 @@ public class Game
 		player = new Player(level.PlayerConfig);
 		world = new World();
 
-		world.Release();
 		world.Construct(level.LevelViewConfig);
 		
 		executor = new LevelExecutor(world, level.BattleConfig);
 		executor.Begin(OnLevelPassedHandler);
 
+		world.EnemyManager.OnEnemyDead += OnEnemyDeadHandler;
 		world.EnemyManager.OnEnemyStop += OnEnemyPassedHandler;
+	}
+
+	private void OnEnemyDeadHandler(Enemy enemy)
+	{
+		AddReward(enemy);
+	}
+
+	private void AddReward(Enemy enemy)
+	{
+		player.Coins += enemy.GetDeathReward();
+		Debug.Log(player.Coins);
 	}
 
 	public void OnUpdate()
@@ -36,6 +50,7 @@ public class Game
 	{
 		if (world != null)
 		{
+			world.EnemyManager.OnEnemyDead -= OnEnemyDeadHandler;
 			world.EnemyManager.OnEnemyStop -= OnEnemyPassedHandler;
 			world.Release();
 			world = null;
