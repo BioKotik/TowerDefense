@@ -18,13 +18,9 @@ public class EnemyManager
 	}
 
 	public Enemy GetEnemy(int index)
-    {
-        if (enemies.Count > 0)
-        {
-			return enemies[index];
-        }
-		return null;
-    }
+	{
+		return enemies[index];
+	}
 
 	public Enemy Spawn(EnemyConfig config, Path path)
 	{
