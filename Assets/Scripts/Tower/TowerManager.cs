@@ -31,4 +31,17 @@ public class TowerManager
 			tower.OnUpdate();
 		}
 	}
+
+	public Tower FindTowerByPosition(Vector2Int position)
+    {
+        foreach (var tower in towers)
+        {
+            if (world.Environment.WorldToEnvironmentPosition(tower.transform.position) == position)
+            {
+				return tower;
+            }
+        }
+
+		return null;
+    }
 }

@@ -9,10 +9,12 @@ public class World
 	private Environment environment;
 	private EnemyManager enemyManager;
 	private TowerManager towerManager;
+	private InputManager inputManager;
 
 	public Environment Environment { get { return environment; } }
 	public EnemyManager EnemyManager { get { return enemyManager; } }
 	public TowerManager TowerManager { get { return towerManager; } }
+	public InputManager InputManager { get { return inputManager; } }
 
 	public void Construct(LevelViewConfig config)
 	{
@@ -26,6 +28,11 @@ public class World
 
 		enemyManager = new EnemyManager(this);
 		towerManager = new TowerManager(this);
+
+		var inputManagerConfig = config.InputManagerConfig;
+
+		inputManager = Object.Instantiate(inputManagerConfig.prefab, mainObject.transform);
+		inputManager.Construct(this);
 
 		foreach (var position in config.TowerPositions)
 		{

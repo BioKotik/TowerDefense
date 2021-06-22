@@ -32,4 +32,11 @@ public class Environment : MonoBehaviour
 	{
 		return paths.Length;
 	}
+
+	public Vector2Int WorldToEnvironmentPosition(Vector3 position)
+	{
+		var pos = decayTilemap.WorldToCell(position);
+
+		return new Vector2Int(pos.x, pos.y);
+	}
 }

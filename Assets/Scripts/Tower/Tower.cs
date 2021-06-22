@@ -7,9 +7,11 @@ public class Tower : MonoBehaviour
     private float attackSpeed;
     private float attackRange;
     private ProjectileConfig projectileConfig;
+    private UpgradeConfig upgradeConfig;
 
     private ProjectileManager projectileManager;
 
+    private ButtonsController buttonsController;
     private SpriteRenderer spriteRenderer;
     private Quaternion defaultRotation;
 
@@ -18,6 +20,7 @@ public class Tower : MonoBehaviour
 
     private bool canShoot = true;
     private float reloadTime;
+    private int upgradeIndex = 0;
 
     public void Construct(TowerConfig config, World world)
 	{
@@ -29,6 +32,7 @@ public class Tower : MonoBehaviour
 
         canShoot = true;
         reloadTime = 1f / attackSpeed;
+        upgradeIndex = 0;
 
         spriteRenderer = GetComponent<SpriteRenderer>();
         defaultRotation = transform.rotation;
@@ -86,8 +90,16 @@ public class Tower : MonoBehaviour
         canShoot = true;
     }
 
-    public void Upgrade(Upgrade upgrade)
+    public void Upgrade()
     {
+        if (upgradeIndex >= upgradeConfig.upgrades.Count)
+        {
+            return;
+        }
+
+        upgradeIndex++;
+        var upgrade = upgradeConfig.upgrades[upgradeIndex];
+
         attackSpeed += upgrade.attackSpeedBonus;
         attackRange += upgrade.attackRangeBonus;
 
@@ -106,4 +118,15 @@ public class Tower : MonoBehaviour
 	{
         Gizmos.DrawWireSphere(transform.position, attackRange);
 	}
+    
+    public void ShowButtons()
+    {
+        buttonsController.gameObject.SetActive(true);
+        buttonsController.tower = this;
+    }
+
+    public void HideButtons()
+    {
+        buttonsController.gameObject.SetActive(false);
+    }
 }

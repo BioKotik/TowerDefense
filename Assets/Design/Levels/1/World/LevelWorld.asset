@@ -16,3 +16,4 @@ MonoBehaviour:
   - {x: -3, y: 0}
   towerConfig: {fileID: 11400000, guid: ab767a923c440c646a530b2759f79180, type: 2}
   environmentConfig: {fileID: 11400000, guid: 0960463ed27c4bd4db0b1056d1cbbe91, type: 2}
+  inputManagerConfig: {fileID: 11400000, guid: fc9555425bebefe47be73f9af85a61b9, type: 2}
