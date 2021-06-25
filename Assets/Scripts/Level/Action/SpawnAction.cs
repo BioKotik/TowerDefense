@@ -7,19 +7,21 @@ public enum PathStrategy
 }
 
 [CreateAssetMenu(fileName = "SpawnAction")]
-public class SpawnAction : WaveAction
+public class SpawnAction : GameAction
 {
 	[SerializeField] private PathStrategy pathStrategy;
 	[SerializeField] private int pathIndex;
 
 	[SerializeField] private EnemyConfig config;
 
-	public override void Do(System.Action callback)
+	public override void OnStart()
 	{
+		base.OnStart();
+
 		var path = GetPath();
 		world.EnemyManager.Spawn(config, path);
 
-		callback?.Invoke();
+		SetComplete();
 	}
 
 	private Path GetPath()
@@ -28,13 +30,13 @@ public class SpawnAction : WaveAction
 		{
 			case PathStrategy.Implicit:
 			{
-				return world.Environment.GetPath(pathIndex);
+				return world.EnvironmentManager.GetPath(pathIndex);
 			}
 
 			case PathStrategy.Random:
 			default:
 			{
-				return world.Environment.GetRandomPath();
+				return world.EnvironmentManager.GetRandomPath();
 			}
 		}
 	}

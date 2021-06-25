@@ -6,26 +6,30 @@ public class World
 {
 	private GameObject mainObject;
 
-	private Environment environment;
 	private EnemyManager enemyManager;
 	private TowerManager towerManager;
+	private EnvironmentManager environmentManager;
 
-	public Environment Environment { get { return environment; } }
+	public EnvironmentManager EnvironmentManager { get { return environmentManager; } }
 	public EnemyManager EnemyManager { get { return enemyManager; } }
 	public TowerManager TowerManager { get { return towerManager; } }
+	public Transform Root { get { return mainObject.transform; } }
 
-	public void Construct(LevelViewConfig config)
+	public void Initialize(LevelViewConfig config)
 	{
 		mainObject = new GameObject();
 		mainObject.name = "World";
 
 		var environmentConfig = config.EnvironmentConfig;
 
-		environment = Object.Instantiate(environmentConfig.Prefab, mainObject.transform);
-		environment.Construct(environmentConfig);
+		environmentManager = Object.Instantiate(environmentConfig.Prefab, mainObject.transform);
+		environmentManager.Initialize(environmentConfig);
 
-		enemyManager = new EnemyManager(this);
-		towerManager = new TowerManager(this);
+		enemyManager = new EnemyManager();
+		enemyManager.Initialize(this);
+		
+		towerManager = new TowerManager();
+		towerManager.Initialize(this);
 
 		foreach (var position in config.TowerPositions)
 		{
@@ -33,32 +37,23 @@ public class World
 		}
 	}
 
-	public void Release()
-	{
-		if (mainObject != null)
-		{
-			Object.Destroy(mainObject);
-		}
-	}
-
-	public void AddObject(Transform obj)
-	{
-		obj.parent = mainObject.transform;
-	}
-
-	public void AddRoutine(IEnumerator routine)
-	{
-		environment.StartCoroutine(routine);
-	}
-
-	public void RemoveRoutine(IEnumerator routine)
-	{
-		environment.StopCoroutine(routine);
-	}
-
 	public void OnUpdate()
 	{
 		towerManager.OnUpdate();
 		enemyManager.OnUpdate();
+	}
+
+	public void Release()
+	{
+		towerManager.Release();
+		towerManager = null;
+
+		enemyManager.Release();
+		enemyManager = null;
+
+		environmentManager.Release();
+		environmentManager = null;
+
+		Object.Destroy(mainObject);
 	}
 }

@@ -4,39 +4,47 @@ public class GameManager : MonoBehaviour
 {
 	[SerializeField] private Level[] levels;
 	[SerializeField] private int levelIndex;
+
+	private ActionPlayer actionPlayer = new ActionPlayer();
+
 	private Game game;
+	private World world;
 	
 
 	private void Awake()
 	{
-		game = new Game();
-		game.OnLevelPassed += OnLevelPassedHandler;
-		game.OnLevelFailed += OnLevelFailedHandler;
+		//game = new Game();
+		//game.OnLevelPassed += OnLevelPassedHandler;
+		//game.OnLevelFailed += OnLevelFailedHandler;
 	}
 
 	private void Start()
 	{
-		game.Play(levels[levelIndex]);
+		var level = levels[0];
+		var config = level.InvasionConfig;
+		var wave = config.GetWave(0);
+		var action = wave.Scenario[0];
+
+		world = new World();
+		world.Initialize(level.LevelViewConfig);
+
+		actionPlayer.Initialize(action, world);
+		actionPlayer.SetCallback(Handler);
+		actionPlayer.Play();
 	}
 
 	private void Update()
 	{
-		if (game != null)
-		{
-			game.OnUpdate();
-		}
+		actionPlayer?.OnUpdate();
+		world?.OnUpdate();
 	}
 
-	private void OnLevelFailedHandler()
+	private void Handler()
 	{
-		game.Play(levels[levelIndex]);
-		print("Level Failed!");
-	}
-
-	private void OnLevelPassedHandler()
-	{
-		levelIndex = (levelIndex + 1) % levels.Length;
-		game.Play(levels[levelIndex]);
-		print("Level Passed!");
+		print("Action End!");
+		world.Release();
+		world = null;
+		actionPlayer.Release();
+		actionPlayer = null;
 	}
 }

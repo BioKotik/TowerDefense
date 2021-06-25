@@ -5,23 +5,11 @@ using System.Collections.Generic;
 public class TowerManager
 {
 	private World world;
-	private List<Tower> towers = new List<Tower>();
+	private readonly List<Tower> towers = new List<Tower>();
 
-	public TowerManager(World world)
+	public void Initialize(World world)
 	{
 		this.world = world;
-	}
-
-	public Tower Spawn(TowerConfig config, Vector2Int position)
-	{
-		var tower = Object.Instantiate(config.Prefab);
-		tower.transform.position = world.Environment.GetWorldPosition(position);
-		tower.Construct(config, world);
-
-		world.AddObject(tower.transform);
-		towers.Add(tower);
-
-		return tower;
 	}
 
 	public void OnUpdate()
@@ -30,5 +18,28 @@ public class TowerManager
 		{
 			tower.OnUpdate();
 		}
+	}
+
+	public void Release()
+	{
+		for (int idx = 0; idx < towers.Count; ++idx)
+		{
+			var tower = towers[idx];
+			tower.Release();
+			Object.Destroy(tower);
+		}
+
+		towers.Clear();
+	}
+
+	public Tower Spawn(TowerConfig config, Vector2Int position)
+	{
+		var tower = Object.Instantiate(config.Prefab, world.Root);
+		tower.transform.position = world.EnvironmentManager.GetWorldPosition(position);
+		tower.Initialize(config, world);
+
+		towers.Add(tower);
+
+		return tower;
 	}
 }

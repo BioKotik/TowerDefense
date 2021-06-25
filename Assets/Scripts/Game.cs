@@ -6,7 +6,13 @@ public class Game
 
 	private Player player;
 	private World world;
-	private LevelExecutor executor;
+	private InvasionPlayer invasionPlayer;
+	private bool isActive;
+
+	public bool IsActive()
+	{
+		return isActive;
+	}
 
 	public void Play(Level level)
 	{
@@ -16,18 +22,22 @@ public class Game
 		world = new World();
 
 		world.Release();
-		world.Construct(level.LevelViewConfig);
-		
-		executor = new LevelExecutor(world, level.BattleConfig);
-		executor.Begin(OnLevelPassedHandler);
-
+		world.Initialize(level.LevelViewConfig);
 		world.EnemyManager.OnEnemyStop += OnEnemyPassedHandler;
+
+		invasionPlayer = new InvasionPlayer();
+		invasionPlayer.Initialize(level.InvasionConfig, world);
+		invasionPlayer.SetCallback(OnLevelPassedHandler);
+		invasionPlayer.Play();
+
+		isActive = true;
 	}
 
 	public void OnUpdate()
 	{
-		if (world != null)
+		if (isActive)
 		{
+			invasionPlayer.OnUpdate();
 			world.OnUpdate();
 		}
 	}
@@ -41,9 +51,10 @@ public class Game
 			world = null;
 		}
 
-		executor = null;
-
+		invasionPlayer?.Release();
+		invasionPlayer = null;
 		player = null;
+		isActive = false;
 	}
 
 	private void OnEnemyPassedHandler(Enemy enemy)

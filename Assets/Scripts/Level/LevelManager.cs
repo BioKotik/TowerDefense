@@ -3,7 +3,7 @@
 [System.Serializable]
 public class LevelManager
 {
-	[SerializeField] private BattleConfig[] levels;
+	[SerializeField] private InvasionConfig[] levels;
 	private int currentLevelIndex;
 
 	public void Start(int levelNumber)

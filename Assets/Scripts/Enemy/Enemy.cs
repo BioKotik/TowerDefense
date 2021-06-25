@@ -28,16 +28,11 @@ public class Enemy : MonoBehaviour
 		}
 	}
 
-	public void Construct(EnemyConfig config)
+	public void Initialize(EnemyConfig config)
 	{
 		this.hp = config.Hp;
 		this.movementSpeed = config.MovementSpeed;
 		ResetMovement();
-	}
-
-	public void SetPath(Path path)
-	{
-		this.path = path;
 	}
 
 	public void OnUpdate()
@@ -48,6 +43,16 @@ public class Enemy : MonoBehaviour
 		}
 
 		MoveAlongPath(Time.deltaTime);
+	}
+
+	public void Release()
+	{
+		path = null;
+	}
+
+	public void SetPath(Path path)
+	{
+		this.path = path;
 	}
 
 	public void MoveAlongPath(float deltaTime)

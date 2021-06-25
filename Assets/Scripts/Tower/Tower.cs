@@ -16,22 +16,32 @@ public class Tower : MonoBehaviour
     private World world;
     private Enemy target;
 
-    private bool canShoot = true;
+    private bool canShoot;
     private float reloadTime;
 
-    public void Construct(TowerConfig config, World world)
+    public void Initialize(TowerConfig config, World world)
 	{
         this.world = world;
         this.attackRange = config.AttackRange;
         this.attackSpeed = config.AttackSpeed;
         this.projectileConfig = config.ProjectileConfig;
-        this.projectileManager = new ProjectileManager(world);
+        
+        this.projectileManager = new ProjectileManager();
+        projectileManager.Initialize(world);
 
-        canShoot = true;
-        reloadTime = 1f / attackSpeed;
+        this.canShoot = true;
+        this.reloadTime = 1f / attackSpeed;
+        this.spriteRenderer = GetComponent<SpriteRenderer>();
+        this.defaultRotation = transform.rotation;
+	}
 
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        defaultRotation = transform.rotation;
+    public void Release()
+	{
+        this.world = null;
+        this.projectileConfig = null;
+        this.projectileManager.Release();
+        this.projectileManager = null;
+        this.spriteRenderer = null;
 	}
 
     public void Attack(Enemy target)
@@ -63,21 +73,21 @@ public class Tower : MonoBehaviour
 
     public void OnUpdate()
     {
-        if (target != null && IsInRange(target.transform))
-        {
-            transform.rotation = defaultRotation * QuaternionUtility.LookRotation2D((target.transform.position - transform.position).normalized);
+		if (target != null && IsInRange(target.transform))
+		{
+			transform.rotation = defaultRotation * QuaternionUtility.LookRotation2D((target.transform.position - transform.position).normalized);
 
-            if (canShoot)
-            {
-                Attack(target);
-                StartCoroutine(Reload(reloadTime));
-            }
-        }
-        else
-        {
-            target = FindTarget();
-        }        
-    }
+			if (canShoot)
+			{
+				Attack(target);
+				StartCoroutine(Reload(reloadTime));
+			}
+		}
+		else
+		{
+			target = FindTarget();
+		}
+	}
 
     private IEnumerator Reload(float delay)
     {

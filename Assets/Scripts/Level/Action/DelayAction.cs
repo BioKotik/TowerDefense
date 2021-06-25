@@ -1,22 +1,26 @@
-﻿using System.Collections;
-
-using UnityEngine;
+﻿using UnityEngine;
 
 [CreateAssetMenu(fileName = "DelayAction")]
-public class DelayAction : WaveAction
+public class DelayAction : GameAction
 {
 	[SerializeField] private float seconds;
-	private System.Action callback;
+	private float timer;
 
-	public override void Do(System.Action callback)
+	public override void OnStart()
 	{
-		this.callback = callback;
-		world.AddRoutine(Delay());
+		base.OnStart();
+		timer = seconds;
 	}
 
-	private IEnumerator Delay()
+	public override void OnUpdate()
 	{
-		yield return new WaitForSeconds(seconds);
-		callback?.Invoke();
+		base.OnUpdate();
+		timer -= Time.deltaTime;
+
+		if (timer <= 0f)
+		{
+			timer = 0f;
+			SetComplete();
+		}
 	}
 }

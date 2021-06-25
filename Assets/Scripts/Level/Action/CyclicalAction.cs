@@ -1,56 +1,71 @@
 ﻿using UnityEngine;
 
 [CreateAssetMenu(fileName = "CycleAction")]
-public class CyclicalAction : WaveAction
+public class CyclicalAction : GameAction
 {
-	[SerializeField] private WaveAction[] actions;
+	[SerializeField] private GameAction[] actions;
 	[SerializeField, Min(1)] private int cycleCount = 1;
 
-	private System.Action callback;
-	private int currentActionIndex;
+	private ScenarioPlayer player;
 	private int leftCycles;
 
-	public override void Do(System.Action callback)
+	public override void OnStart()
 	{
-		this.callback = callback;
-		currentActionIndex = 0;
+		base.OnStart();
+
 		leftCycles = cycleCount;
-
-		var action = GetCurrentAction();
-		Do(action);
+		CreatePlayerAndPlay();
 	}
 
-	private WaveAction GetCurrentAction()
+	public override void OnUpdate()
 	{
-		return actions[currentActionIndex];
-	}
+		base.OnUpdate();
 
-	private void Do(WaveAction action)
-	{
-		action.Initialize(world, wave);
-		action.Do(ActionDoneHandler);
-	}
-
-	private void ActionDoneHandler()
-	{
-		++currentActionIndex;
-
-		if (currentActionIndex >= actions.Length)
+		if (player != null)
 		{
-			--leftCycles;
-
-			if (leftCycles > 0)
-			{
-				currentActionIndex = 0;
-			}
-			else
-			{
-				callback?.Invoke();
-				return;
-			}
+			player.OnUpdate();
 		}
+	}
 
-		var action = GetCurrentAction();
-		Do(action);
+	public override void OnEnd()
+	{
+		ReleasePlayer();
+		base.OnEnd();
+	}
+
+	public override void Release()
+	{
+		ReleasePlayer();
+		base.Release();
+	}
+
+	private void OnScenarioEndHandler()
+	{
+		ReleasePlayer();
+		
+		--leftCycles;
+
+		if (leftCycles > 0)
+		{
+			CreatePlayerAndPlay();
+		}
+		else
+		{
+			SetComplete();
+		}
+	}
+
+	private void CreatePlayerAndPlay()
+	{
+		player = new ScenarioPlayer();
+		player.Initialize(world, actions);
+		player.SetCallback(OnScenarioEndHandler);
+		player.Play();
+	}
+
+	private void ReleasePlayer()
+	{
+		player?.Release();
+		player = null;
 	}
 }

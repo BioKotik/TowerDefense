@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 [CreateAssetMenu(fileName = "Enemies")]
-public class BattleConfig : ScriptableObject
+public class InvasionConfig : ScriptableObject
 {
 	[SerializeField] private Wave[] waves;
 

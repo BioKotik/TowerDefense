@@ -1,15 +1,20 @@
 ﻿using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class Environment : MonoBehaviour
+public class EnvironmentManager : MonoBehaviour
 {
 	[SerializeField] private Tilemap decayTilemap;
 	[SerializeField] private Tilemap backgroundTilemap;
 	private Path[] paths;
 
-	public void Construct(EnvironmentConfig config)
+	public void Initialize(EnvironmentConfig config)
 	{
 		this.paths = config.Paths;
+	}
+
+	public void Release()
+	{
+		this.paths = null;
 	}
 
 	public Vector3 GetWorldPosition(Vector2Int cell)

@@ -3,12 +3,7 @@
 [CreateAssetMenu(fileName = "Wave")]
 public class Wave : ScriptableObject
 {
-	[SerializeField] private WaveAction[] actions;
+	[SerializeField] private GameAction[] actions;
 	
-	public int ActionCount { get { return actions.Length; } }
-
-	public WaveAction GetAction(int index)
-	{
-		return actions[index];
-	}
+	public GameAction[] Scenario { get { return actions; } }
 }
