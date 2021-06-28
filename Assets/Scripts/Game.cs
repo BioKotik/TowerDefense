@@ -1,4 +1,7 @@
 ﻿
+using System;
+using UnityEngine;
+
 public class Game
 {
 	public event System.Action OnLevelPassed;
@@ -21,7 +24,6 @@ public class Game
 		player = new Player(level.PlayerConfig);
 		world = new World();
 
-		world.Release();
 		world.Initialize(level.LevelViewConfig);
 		world.EnemyManager.OnEnemyStop += OnEnemyPassedHandler;
 
@@ -31,6 +33,17 @@ public class Game
 		invasionPlayer.Play();
 
 		isActive = true;
+	}
+
+	private void OnEnemyDeadHandler(Enemy enemy)
+	{
+		AddReward(enemy);
+	}
+
+	private void AddReward(Enemy enemy)
+	{
+		player.Coins += enemy.GetDeathReward();
+		Debug.Log(player.Coins);
 	}
 
 	public void OnUpdate()
@@ -46,6 +59,7 @@ public class Game
 	{
 		if (world != null)
 		{
+			world.EnemyManager.OnEnemyDead -= OnEnemyDeadHandler;
 			world.EnemyManager.OnEnemyStop -= OnEnemyPassedHandler;
 			world.Release();
 			world = null;
